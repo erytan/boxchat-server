@@ -21,7 +21,6 @@ app.use(express.urlencoded({ extended: true }))
 //   credentials: true
 
 // }));
-const cors = require('cors');
 // Cho phép tất cả hoặc chỉ domain của client:
 app.use(cors({ origin: 'https://boxchat-44824.web.app' }));
 app.get('/api/some-endpoint', (req, res) => {
