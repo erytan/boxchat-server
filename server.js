@@ -29,7 +29,7 @@ app.get('/api/some-endpoint', (req, res) => {
 });
 const io = new Server(server, {
   cors: {
-    origin: [process.env.URL_CLIENTS],
+    origin: ['https://boxchat-server.onrender.com/'],
     methods: ["GET", "POST"],
     credentials: true
   }
