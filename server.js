@@ -8,7 +8,7 @@ const dbconnect = require('./config/connectdb');
 const initRoutes = require('./routes');
 const { chatController } = require('./controllers/message');
 const { verifySocketToken, verifyAccessToken, } = require('./middlewares/verifyToken');
-const { verifyTokenUtil}= require('./ultils/token')
+const { verifyTokenUtil } = require('./ultils/token')
 
 const app = express()
 const server = http.createServer(app);
@@ -16,10 +16,17 @@ const port = process.env.PORT || 8000
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({
-  origin: [process.env.URL_CLIENTS],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: [process.env.URL_CLIENTS],
+//   credentials: true
+
+// }));
+const cors = require('cors');
+// Cho phép tất cả hoặc chỉ domain của client:
+app.use(cors({ origin: 'https://boxchat-44824.web.app' }));
+app.get('/api/some-endpoint', (req, res) => {
+  res.json({ message: "Hello from Render backend" });
+});
 const io = new Server(server, {
   cors: {
     origin: [process.env.URL_CLIENTS],
