@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // }));
 // Cho phép tất cả hoặc chỉ domain của client:
-app.use(cors({'https://boxchat-44824.web.app' }));
+app.use(cors({ origin:'https://boxchat-44824.web.app' }));
 app.get('/api/some-endpoint', (req, res) => {
   res.json({ message: "Hello from Render backend" });
 });
