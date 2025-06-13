@@ -22,42 +22,42 @@ app.use(express.urlencoded({ extended: true }))
 
 // }));
 // Cho phép tất cả hoặc chỉ domain của client:
-app.use(cors({ origin: process.env.URL_CLIENTS || 'https://boxchat-44824.web.app' }));
+app.use(cors({ origin: 'https://boxchat-44824.web.app' }));
 app.get('/api/some-endpoint', (req, res) => {
-  res.json({ message: "Hello from Render backend" });
+res.json({ message: "Hello from Render backend" });
 });
 const io = new Server(server, {
-  cors: {
-    origin: ['https://boxchat-server.onrender.com'],
-    methods: ["GET", "POST"],
-    credentials: true
-  }
+cors: {
+origin: ['https://boxchat-server.onrender.com'],
+methods: ["GET", "POST"],
+credentials: true
+}
 });
 io.use(verifySocketToken, verifyAccessToken);
 io.on("connection", (socket) => {
 
-  socket.on("authenticate", (data, callback) => {
-    const token = data.token;
-    if (!token) {
-      console.error("❌ Token bị thiếu!");
-      return callback({ success: false, message: "Token không được cung cấp" });
-    }
-    try {
-      const decoded = verifyTokenUtil(token)
-      console.log("✅ Xác thực JWT thành công:", decoded);
-      socket.user = decoded;
-      callback({ success: true });
-    } catch (err) {
-      console.error("🚨 Token không hợp lệ:", err.message);
-      callback({ success: false, message: "Token không hợp lệ" });
-    }
-  });
+socket.on("authenticate", (data, callback) => {
+const token = data.token;
+if (!token) {
+console.error("❌ Token bị thiếu!");
+return callback({ success: false, message: "Token không được cung cấp" });
+}
+try {
+const decoded = verifyTokenUtil(token)
+console.log("✅ Xác thực JWT thành công:", decoded);
+socket.user = decoded;
+callback({ success: true });
+} catch (err) {
+console.error("🚨 Token không hợp lệ:", err.message);
+callback({ success: false, message: "Token không hợp lệ" });
+}
+});
 
-  chatController(io, socket); // Gọi chatController sau khi xác thực xong
+chatController(io, socket); // Gọi chatController sau khi xác thực xong
 });
 dbconnect()
 initRoutes(app)
 
 server.listen(port, () => {
-  console.log(`Hehehe cố gắng lên ${port}`);
+console.log(`Hehehe cố gắng lên ${port}`);
 })
